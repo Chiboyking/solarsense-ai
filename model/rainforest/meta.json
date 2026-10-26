@@ -1,0 +1,25 @@
+{
+  "zone": "rainforest",
+  "zone_label": "Rainforest (Enugu)",
+  "features": [
+    "ghi",
+    "clear_sky_ghi",
+    "clear_sky_index",
+    "temp_air",
+    "wind_speed",
+    "cloud_cover",
+    "hour_sin",
+    "hour_cos",
+    "doy_sin",
+    "doy_cos",
+    "solar_zenith"
+  ],
+  "trained_at": "2026-10-26T13:26:48.996210+00:00",
+  "test_mae_kw": 0.007938153950148236,
+  "persistence_baseline_mae_kw": 0.08565776213505312,
+  "skill_score_vs_persistence": 0.9073270915292829,
+  "n_test_samples": 1318,
+  "backend": "xgboost",
+  "data_source": "nasa_power_real",
+  "panel_kw_reference": 5.0
+}

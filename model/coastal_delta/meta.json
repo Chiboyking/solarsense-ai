@@ -1,0 +1,25 @@
+{
+  "zone": "coastal_delta",
+  "zone_label": "Coastal / Niger Delta (Lagos)",
+  "features": [
+    "ghi",
+    "clear_sky_ghi",
+    "clear_sky_index",
+    "temp_air",
+    "wind_speed",
+    "cloud_cover",
+    "hour_sin",
+    "hour_cos",
+    "doy_sin",
+    "doy_cos",
+    "solar_zenith"
+  ],
+  "trained_at": "2026-10-26T13:26:54.024319+00:00",
+  "test_mae_kw": 0.007551554161324826,
+  "persistence_baseline_mae_kw": 0.1064668458179059,
+  "skill_score_vs_persistence": 0.9290713075670475,
+  "n_test_samples": 1318,
+  "backend": "xgboost",
+  "data_source": "nasa_power_real",
+  "panel_kw_reference": 5.0
+}

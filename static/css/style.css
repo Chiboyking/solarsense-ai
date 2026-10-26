@@ -1,0 +1,560 @@
+/* =========================================================================
+   style.css
+   Mobile-first styling for SolarSense AI.
+   Base styles target phones (<=480px); progressively enhanced for tablet
+   (>=481px) and desktop (>=992px) via the media queries at the bottom.
+   ========================================================================= */
+
+:root {
+  --bg-start: #0f0c29;
+  --bg-mid: #302b63;
+  --bg-end: #24243e;
+  --cyan: #00d2ff;
+  --blue: #3a7bd5;
+  --purple: #8e6bff;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --text-primary: #f4f6ff;
+  --text-secondary: rgba(244, 246, 255, 0.7);
+  --radius: clamp(14px, 3vw, 20px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-mid) 55%, var(--bg-end) 100%);
+  background-attachment: fixed;
+}
+
+.hidden { display: none !important; }
+
+a { color: var(--cyan); }
+
+/* ---------------------------- Header ---------------------------- */
+.ss-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  background: rgba(15, 12, 41, 0.65);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.ss-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(0.6rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ss-brand {
+  font-weight: 800;
+  font-size: clamp(1.05rem, 3vw, 1.4rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ss-brand-icon { color: var(--cyan); -webkit-text-fill-color: var(--cyan); }
+
+.ss-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ss-lang-select {
+  min-height: 44px;
+  border-radius: 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 0 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* ---------------------------- Buttons ---------------------------- */
+.ss-btn-primary, .ss-btn-ghost {
+  min-height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  border: none;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.ss-btn-primary {
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  color: #061019;
+}
+
+.ss-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 210, 255, 0.25); }
+
+.ss-btn-ghost {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.ss-btn-ghost:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ---------------------------- Hero ---------------------------- */
+.ss-hero {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(2rem, 8vw, 4rem) 1.25rem clamp(1.5rem, 5vw, 2.5rem);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.ss-tagline {
+  color: var(--text-secondary);
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.ss-hero-btn {
+  position: relative;
+  min-height: 64px;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  color: #061019;
+  font-size: clamp(1rem, 3.2vw, 1.2rem);
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  box-shadow: 0 14px 40px rgba(0, 210, 255, 0.28);
+  transition: transform 0.2s ease;
+}
+
+.ss-hero-btn:hover { transform: translateY(-3px) scale(1.02); }
+
+.ss-hero-btn-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  filter: blur(18px);
+  opacity: 0.55;
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.35; transform: scale(0.97); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.ss-locate-status, .ss-location-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+}
+
+.ss-location-label { font-weight: 600; color: var(--text-primary); }
+
+.ss-spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--cyan);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.ss-city-search {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ss-warning-text { color: #ffb454; font-size: 0.9rem; margin: 0; }
+
+.ss-search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  backdrop-filter: blur(12px);
+}
+
+.ss-search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  width: 100%;
+  min-height: 24px;
+}
+
+.ss-city-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ss-city-results li {
+  padding: 0.75rem 1rem;
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.ss-city-results li:hover { background: rgba(255, 255, 255, 0.14); }
+
+/* ---------------------------- Dashboard layout ---------------------------- */
+.ss-main { padding-bottom: 2rem; }
+
+.ss-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ss-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+/* ---------------------------- Cards (glassmorphism) ---------------------------- */
+.ss-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ss-card:hover { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25); }
+
+.ss-card-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.ss-card-title {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ss-card-title i { color: var(--cyan); }
+
+/* ---------------------------- Banners ---------------------------- */
+.ss-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.ss-banner-error { border-color: rgba(255, 99, 132, 0.5); color: #ffb4c0; }
+.ss-banner-nowcast { border-color: rgba(255, 180, 84, 0.5); color: #ffd08a; }
+
+/* ---------------------------- Conditions grid ---------------------------- */
+.ss-conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.ss-condition {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.ss-condition i { color: var(--cyan); font-size: 1.1rem; }
+.ss-cond-label { font-size: 0.78rem; color: var(--text-secondary); }
+.ss-cond-value { font-size: 1.05rem; font-weight: 700; }
+
+/* ---------------------------- Gauge ---------------------------- */
+.ss-gauge-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 2 / 1.15;
+}
+
+.ss-gauge-value {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 800;
+  color: var(--cyan);
+}
+
+/* ---------------------------- Savings ---------------------------- */
+.ss-savings-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(120deg, rgba(0, 210, 255, 0.12), rgba(142, 107, 255, 0.12));
+}
+
+.ss-savings-icon { font-size: 2rem; color: var(--cyan); }
+.ss-savings-value { font-size: 1.4rem; font-weight: 800; color: var(--cyan); }
+
+/* ---------------------------- Charts ---------------------------- */
+.ss-chart-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.ss-chart-wrap canvas { max-width: 100%; height: 100% !important; }
+
+/* ---------------------------- Forms ---------------------------- */
+.ss-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.ss-field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; color: var(--text-secondary); }
+.ss-field-wide { grid-column: 1 / -1; }
+
+.ss-field input, .ss-field select {
+  min-height: 48px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  padding: 0 0.8rem;
+  font-size: 1rem;
+}
+
+.ss-field input[type="range"] { padding: 0; background: transparent; }
+
+.ss-inverter-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+}
+
+/* ---------------------------- Tables ---------------------------- */
+.ss-table-wrap { overflow-x: auto; }
+
+.ss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.ss-table th, .ss-table td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.ss-table th { color: var(--text-secondary); font-weight: 600; }
+
+/* ---------------------------- Footer ---------------------------- */
+.ss-footer {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 2rem 1rem 1rem;
+}
+
+/* ---------------------------- Nigeria badge ---------------------------- */
+.ss-ng-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(63, 174, 98, 0.16);
+  border: 1px solid rgba(63, 174, 98, 0.4);
+  color: #8fe3ac;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  -webkit-text-fill-color: #8fe3ac;
+}
+
+/* ---------------------------- Location card ---------------------------- */
+.ss-loc-card { max-width: 640px; margin: 0 auto 1.2rem; }
+
+.ss-loc-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.9rem; }
+
+.ss-loc-tab {
+  flex: 1;
+  min-height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.ss-loc-tab.active {
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  color: #061019;
+  border-color: transparent;
+}
+
+.ss-hero-btn-inline {
+  width: 100%;
+  min-height: 52px;
+  font-size: 1rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 12px;
+  justify-content: center;
+}
+
+.ss-loc-note { color: var(--text-secondary); font-size: 0.82rem; margin: 0.6rem 0 0; }
+
+/* ---------------------------- Page tabs (Dashboard / My Data) ---------------------------- */
+.ss-tabbar {
+  display: flex;
+  gap: 1.4rem;
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 0.2rem;
+}
+
+.ss-tabbtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.1rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  min-height: 44px;
+}
+
+.ss-tabbtn.active { color: var(--text-primary); border-color: var(--cyan); }
+
+/* ---------------------------- Summary strip ---------------------------- */
+.ss-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin-bottom: 0.2rem; }
+
+.ss-strip-cell {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.ss-strip-lbl { display: block; font-size: 0.7rem; color: var(--text-secondary); }
+.ss-strip-val { display: block; font-size: 1.1rem; font-weight: 800; margin-top: 0.15rem; }
+.ss-strip-cell.g .ss-strip-val { color: var(--cyan); }
+.ss-strip-cell.p .ss-strip-val { color: #ff8fa3; }
+
+/* ---------------------------- Range sliders ---------------------------- */
+.ss-range-row { display: flex; align-items: center; gap: 0.6rem; }
+.ss-range-row input[type="range"] { flex: 1; padding: 0; background: transparent; min-height: 44px; }
+.ss-range-val { min-width: 44px; text-align: right; color: var(--text-primary); font-weight: 700; font-size: 0.95rem; }
+
+/* ---------------------------- Pending / demo tag ---------------------------- */
+.ss-card-pending { border-color: rgba(255, 180, 84, 0.45); }
+.ss-tag {
+  background: rgba(255, 180, 84, 0.15);
+  color: #ffd08a;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+}
+
+/* ---------------------------- My Data stat ---------------------------- */
+.ss-mydata-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(63, 174, 98, 0.1);
+  border-color: rgba(63, 174, 98, 0.35);
+}
+.ss-mydata-stat i { font-size: 1.5rem; color: #8fe3ac; }
+.ss-mydata-stat strong { color: #8fe3ac; }
+
+/* =========================================================================
+   Tablet breakpoint
+   ========================================================================= */
+@media (min-width: 481px) {
+  .ss-form-grid { grid-template-columns: 1fr 1fr; }
+  .ss-conditions-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========================================================================
+   Desktop breakpoint
+   ========================================================================= */
+@media (min-width: 992px) {
+  .ss-grid-2 { grid-template-columns: 1fr 1fr; }
+  .ss-form-grid { grid-template-columns: repeat(3, 1fr); }
+  .ss-conditions-grid { grid-template-columns: repeat(3, 1fr); }
+  .ss-dashboard { padding: 0 2rem; }
+}

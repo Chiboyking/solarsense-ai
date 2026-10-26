@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0f0c29">
+<meta name="description" content="AI-powered solar forecasting, battery optimization, and community data for Nigeria.">
+<title>SolarSense AI — Nigeria</title>
+
+<link rel="manifest" href="/static/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/static/icons/icon.svg">
+<link rel="apple-touch-icon" href="/static/icons/icon.svg">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="ss-header">
+  <div class="ss-header-inner">
+    <div class="ss-brand">
+      <i class="fa-solid fa-solar-panel ss-brand-icon"></i>
+      <span data-i18n="app_title">SolarSense AI</span>
+      <span class="ss-ng-badge">🇳🇬 <span data-i18n="nigeria_edition">Nigeria</span></span>
+    </div>
+    <div class="ss-header-actions">
+      <button id="installBtn" class="ss-btn-ghost hidden" type="button">
+        <i class="fa-solid fa-download"></i>
+        <span data-i18n="install_app">Install App</span>
+      </button>
+      <select id="langSelect" class="ss-lang-select" aria-label="Language">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main class="ss-main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="ss-hero">
+    <p class="ss-tagline" data-i18n="tagline">AI-powered solar forecasting, battery optimization &amp; community insight for Nigerian homes and businesses</p>
+  </section>
+
+  <!-- ===================== LOCATION CARD ===================== -->
+  <section class="ss-card ss-loc-card">
+    <div class="ss-loc-tabs">
+      <button id="locTabAuto" class="ss-loc-tab active" type="button">
+        <i class="fa-solid fa-location-crosshairs"></i> <span data-i18n="use_my_location">Use My Location</span>
+      </button>
+      <button id="locTabManual" class="ss-loc-tab" type="button">
+        <i class="fa-solid fa-map"></i> <span data-i18n="choose_state">Choose State</span>
+      </button>
+    </div>
+
+    <div id="locAutoPane">
+      <button id="locateBtn" class="ss-hero-btn ss-hero-btn-inline" type="button">
+        <span class="ss-hero-btn-glow"></span>
+        <i class="fa-solid fa-location-crosshairs"></i>
+        <span data-i18n="get_location">Detect My Location</span>
+      </button>
+      <div id="locateStatus" class="ss-locate-status hidden">
+        <div class="ss-spinner"></div>
+        <span data-i18n="getting_location">Locating you...</span>
+      </div>
+      <p class="ss-loc-note" data-i18n="auto_location_note">We'll match you to the nearest Nigerian state automatically.</p>
+    </div>
+
+    <div id="locManualPane" class="hidden">
+      <select id="stateSelect" aria-label="State"></select>
+      <p class="ss-loc-note" data-i18n="manual_location_note">Every Nigerian state, matched to its capital for weather data.</p>
+    </div>
+
+    <p class="ss-warning-text hidden" id="locationDeniedMsg" data-i18n="location_denied">Location access denied. Choose your state instead.</p>
+    <p class="ss-location-label"><i class="fa-solid fa-map-pin"></i> <span id="locationLabelText">Ikeja, Lagos State</span></p>
+  </section>
+
+  <div class="ss-dashboard">
+
+    <div id="demoBanner" class="ss-banner">
+      <i class="fa-solid fa-circle-info"></i>
+      <span data-i18n="default_location_note">Showing the forecast for Lagos State by default — the dashboard is fully visible before you set a location. Detect your location or pick your state above for personalized results.</span>
+    </div>
+
+    <div id="loadingBanner" class="ss-banner hidden">
+      <div class="ss-spinner"></div> <span data-i18n="loading">Loading forecast...</span>
+    </div>
+    <div id="errorBanner" class="ss-banner ss-banner-error hidden"></div>
+    <div id="nowcastBanner" class="ss-banner ss-banner-nowcast hidden"></div>
+
+    <!-- ===================== TABS ===================== -->
+    <div class="ss-tabbar">
+      <button id="pageTabDash" class="ss-tabbtn active" type="button" data-i18n="dashboard_tab">Dashboard</button>
+      <button id="pageTabMyData" class="ss-tabbtn" type="button" data-i18n="my_data_tab">My Data</button>
+    </div>
+
+    <!-- ===================== DASHBOARD PANE ===================== -->
+    <div id="dashPane">
+
+      <div class="ss-strip">
+        <div class="ss-strip-cell g"><span class="ss-strip-lbl" data-i18n="this_hour">This Hour</span><span class="ss-strip-val" id="stripHour">-- kW</span></div>
+        <div class="ss-strip-cell"><span class="ss-strip-lbl" data-i18n="next_hours_total">Next 24h Est.</span><span class="ss-strip-val" id="stripDaily">-- kWh</span></div>
+        <div class="ss-strip-cell p"><span class="ss-strip-lbl" data-i18n="home_usage_label">Home Usage</span><span class="ss-strip-val" id="stripUsage">-- kW</span></div>
+      </div>
+
+      <div class="ss-grid ss-grid-2">
+        <div class="ss-card">
+          <h2 class="ss-card-title"><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="current_conditions">Current Conditions</span></h2>
+          <div class="ss-conditions-grid">
+            <div class="ss-condition"><i class="fa-solid fa-sun"></i><span class="ss-cond-label" data-i18n="ghi">Solar Irradiance</span><span class="ss-cond-value" id="condGhi">--</span></div>
+            <div class="ss-condition"><i class="fa-solid fa-temperature-half"></i><span class="ss-cond-label" data-i18n="temperature">Temperature</span><span class="ss-cond-value" id="condTemp">--</span></div>
+            <div class="ss-condition"><i class="fa-solid fa-wind"></i><span class="ss-cond-label" data-i18n="wind">Wind Speed</span><span class="ss-cond-value" id="condWind">--</span></div>
+            <div class="ss-condition"><i class="fa-solid fa-cloud"></i><span class="ss-cond-label" data-i18n="cloud_cover">Cloud Cover</span><span class="ss-cond-value" id="condCloud">--</span></div>
+            <div class="ss-condition"><i class="fa-solid fa-gauge"></i><span class="ss-cond-label" data-i18n="clear_sky_index">Clear-Sky Index</span><span class="ss-cond-value" id="condClearSky">--</span></div>
+            <div class="ss-condition"><i class="fa-solid fa-earth-africa"></i><span class="ss-cond-label" data-i18n="climate_zone_label">Climate Zone</span><span class="ss-cond-value" id="condZone">--</span></div>
+          </div>
+        </div>
+
+        <div class="ss-card ss-card-center">
+          <h2 class="ss-card-title"><i class="fa-solid fa-bolt"></i> <span data-i18n="predicted_power">Predicted Power</span></h2>
+          <div class="ss-gauge-wrap">
+            <canvas id="gaugeChart"></canvas>
+            <div class="ss-gauge-value" id="gaugeValue">-- kW</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ss-card">
+        <h2 class="ss-card-title"><i class="fa-solid fa-chart-line"></i> <span data-i18n="forecast_title">AI Power Forecast</span></h2>
+        <div class="ss-chart-wrap"><canvas id="forecastChart"></canvas></div>
+      </div>
+
+      <div class="ss-card">
+        <h2 class="ss-card-title"><i class="fa-solid fa-chart-area"></i> <span data-i18n="typical_output_title">Next 24 Hours</span> — <span id="cityChartLabel">Ikeja, Lagos</span></h2>
+        <div class="ss-chart-wrap"><canvas id="dailyCurveChart"></canvas></div>
+      </div>
+
+      <div class="ss-card">
+        <h2 class="ss-card-title"><i class="fa-solid fa-car-battery"></i> <span data-i18n="battery_title">Battery Storage Optimization</span></h2>
+        <div class="ss-form-grid">
+          <label class="ss-field">
+            <span data-i18n="battery_capacity">Battery Capacity (kWh)</span>
+            <div class="ss-range-row"><input type="range" id="batteryCapacityInput" min="1" max="30" step="0.5" value="10"><span class="ss-range-val" id="batteryCapacityVal">10</span></div>
+          </label>
+          <label class="ss-field">
+            <span data-i18n="soc">State of Charge</span>
+            <div class="ss-range-row"><input type="range" id="socInput" min="0" max="100" value="50"><span class="ss-range-val" id="socDisplay">50%</span></div>
+          </label>
+          <label class="ss-field">
+            <span data-i18n="home_usage_label">Home Usage (kWh/hr)</span>
+            <div class="ss-range-row"><input type="range" id="loadInput" min="0.2" max="6" step="0.1" value="1.5"><span class="ss-range-val" id="loadVal">1.5</span></div>
+          </label>
+        </div>
+        <div class="ss-chart-wrap"><canvas id="batteryChart"></canvas></div>
+      </div>
+
+
+      <div class="ss-card ss-card-pending">
+        <h2 class="ss-card-title"><i class="fa-solid fa-plug-circle-bolt"></i> <span data-i18n="inverter_title">Inverter Comparison</span> <span class="ss-tag">demo</span></h2>
+        <div class="ss-form-grid">
+          <label class="ss-field ss-field-wide">
+            <span data-i18n="inverter_ip_label">Inverter IP / API Key</span>
+            <input type="text" id="inverterKeyInput" placeholder="demo-key-1234">
+          </label>
+          <button id="simulateReadingBtn" class="ss-btn-primary" type="button">
+            <i class="fa-solid fa-satellite-dish"></i> <span data-i18n="simulate_reading">Compare Reading</span>
+          </button>
+        </div>
+        <div id="inverterResult" class="ss-inverter-result hidden">
+          <div><span data-i18n="measured_power">Measured Power</span>: <strong id="measuredPowerValue">--</strong> kW</div>
+          <div><span data-i18n="deviation">Deviation from Forecast</span>: <strong id="deviationValue">--</strong>%</div>
+        </div>
+        <p class="ss-loc-note" data-i18n="inverter_demo_note">This comparison is simulated for now — no real inverter is connected. Real per-brand integration is on the roadmap.</p>
+      </div>
+
+      <div class="ss-card">
+        <h2 class="ss-card-title"><i class="fa-solid fa-sliders"></i> <span data-i18n="settings_title">System Settings</span></h2>
+        <div class="ss-form-grid">
+          <label class="ss-field">
+            <span data-i18n="panel_capacity">Panel Capacity (kW)</span>
+            <input type="number" id="capacityInput" min="0.5" step="0.5" value="5">
+          </label>
+          <button id="notifyBtn" class="ss-btn-ghost" type="button">
+            <i class="fa-solid fa-bell"></i> <span data-i18n="notifications_enable">Enable Alerts</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== MY DATA PANE ===================== -->
+    <div id="myDataPane" class="hidden">
+      <div class="ss-card ss-mydata-stat">
+        <i class="fa-solid fa-database"></i>
+        <div>
+          <strong id="totalContributions">0</strong> <span data-i18n="contributions_total_label">readings contributed across Nigeria</span> —
+          <strong id="stateContributions">0</strong> <span id="stateContribLabel" data-i18n="contributions_state_label">from your state</span>.
+          <span data-i18n="contributions_help_text"> Every submission helps retrain the model for your area — this isn't a leaderboard.</span>
+        </div>
+      </div>
+
+      <div class="ss-card">
+        <h2 class="ss-card-title"><i class="fa-solid fa-plus"></i> <span data-i18n="add_reading_title">Add a Reading</span></h2>
+        <div class="ss-form-grid">
+          <label class="ss-field">
+            <span data-i18n="actual_power_label">Actual Power Produced (kW)</span>
+            <input type="number" id="actualPowerInput" min="0" step="0.01">
+          </label>
+          <button id="submitReadingBtn" class="ss-btn-primary" type="button">
+            <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="save_reading">Save Reading</span>
+          </button>
+        </div>
+        <div id="contributeResult" class="ss-inverter-result hidden"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="ss-footer">
+    <p data-i18n="footer_text">Built with real weather data (Open-Meteo) and real historical solar data (NASA POWER) for Nigeria. Forecasts are estimates, not guarantees.</p>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/static/js/i18n.js"></script>
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/battery.js"></script>
+<script src="/static/js/pwa.js"></script>
+<script src="/static/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f0c29"/>
+      <stop offset="50%" stop-color="#302b63"/>
+      <stop offset="100%" stop-color="#24243e"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#3a7bd5"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="36" fill="url(#bg)"/>
+  <circle cx="96" cy="96" r="34" fill="url(#sun)"/>
+  <g stroke="url(#sun)" stroke-width="6" stroke-linecap="round">
+    <line x1="96" y1="30" x2="96" y2="46"/>
+    <line x1="96" y1="146" x2="96" y2="162"/>
+    <line x1="30" y1="96" x2="46" y2="96"/>
+    <line x1="146" y1="96" x2="162" y2="96"/>
+    <line x1="48" y1="48" x2="59" y2="59"/>
+    <line x1="133" y1="133" x2="144" y2="144"/>
+    <line x1="144" y1="48" x2="133" y2="59"/>
+    <line x1="59" y1="133" x2="48" y2="144"/>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "zone": "sudan_savanna",
+  "zone_label": "Sudan Savanna (Kano)",
+  "features": [
+    "ghi",
+    "clear_sky_ghi",
+    "clear_sky_index",
+    "temp_air",
+    "wind_speed",
+    "cloud_cover",
+    "hour_sin",
+    "hour_cos",
+    "doy_sin",
+    "doy_cos",
+    "solar_zenith"
+  ],
+  "trained_at": "2026-10-26T13:26:31.773126+00:00",
+  "test_mae_kw": 0.012911721438994671,
+  "persistence_baseline_mae_kw": 0.06677528073141122,
+  "skill_score_vs_persistence": 0.8066392039454059,
+  "n_test_samples": 1318,
+  "backend": "xgboost",
+  "data_source": "nasa_power_real",
+  "panel_kw_reference": 5.0
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Accurate Is This, Really? — SolarSense AI</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="ss-header">
+  <div class="ss-header-inner">
+    <a href="/" class="ss-brand" style="text-decoration:none;">
+      <i class="fa-solid fa-solar-panel ss-brand-icon"></i> SolarSense AI
+    </a>
+    <div class="ss-header-actions">
+      <a href="/about" class="ss-btn-ghost">About</a>
+      <a href="/" class="ss-btn-primary">Open the App</a>
+    </div>
+  </div>
+</header>
+
+<main class="ss-main">
+  <section class="ss-hero" style="max-width:760px;">
+    <h1 style="font-weight:800;">How accurate is this, really?</h1>
+    <p class="ss-tagline">
+      Most forecasting tools show you a confident number and stop there. We think you deserve to
+      see the actual error rate — per climate zone, measured against real held-out data, compared
+      to the simplest possible baseline. No cherry-picked demo numbers.
+    </p>
+  </section>
+
+  <div class="ss-dashboard">
+    <div id="loadingNote" class="ss-banner"><div class="ss-spinner"></div> Loading live accuracy data from /model_info...</div>
+    <div id="errorNote" class="ss-banner ss-banner-error hidden"></div>
+    <div id="zoneGrid" class="ss-grid ss-grid-2"></div>
+
+    <div class="ss-card" style="margin-top:1rem;">
+      <h2 class="ss-card-title"><i class="fa-solid fa-scale-balanced"></i> How to read this</h2>
+      <p style="color:var(--text-secondary)">
+        <strong>Model MAE</strong> is the average size of the model's mistake, in kW — lower is better.
+        <strong>Persistence baseline</strong> is the simplest forecast possible: "assume this hour looks
+        like the same hour yesterday." Any real model has to beat that to prove it's doing something
+        useful, not just producing plausible-looking numbers. <strong>Skill score</strong> is how much
+        better than that baseline the model actually is. We report both numbers, not just the second one,
+        because a skill score with nothing to check it against is just a claim.
+      </p>
+      <p style="color:var(--text-secondary)">
+        What this page does <em>not</em> claim: validation against real metered household output in
+        Nigeria — that dataset doesn't exist yet publicly, so these numbers are measured against real
+        historical weather data, with power output derived from a documented physical model rather than
+        a meter. That distinction is explained in full on the <a href="/about">About</a> page.
+      </p>
+    </div>
+  </div>
+
+  <footer class="ss-footer"><p>Built with real weather data (Open-Meteo) and real historical solar data (NASA POWER) for Nigeria.</p></footer>
+</main>
+
+<script>
+async function loadAccuracy() {
+  const loading = document.getElementById('loadingNote');
+  const error = document.getElementById('errorNote');
+  const grid = document.getElementById('zoneGrid');
+  try {
+    const resp = await fetch('/model_info');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    loading.classList.add('hidden');
+
+    Object.entries(data).forEach(([zone, m]) => {
+      const skillPct = m.skill_score_vs_persistence != null ? (m.skill_score_vs_persistence * 100).toFixed(1) : '—';
+      const card = document.createElement('div');
+      card.className = 'ss-card';
+      card.innerHTML = `
+        <h2 class="ss-card-title"><i class="fa-solid fa-earth-africa"></i> ${m.zone_label || zone}</h2>
+        <div class="ss-conditions-grid">
+          <div class="ss-condition"><span class="ss-cond-label">Model MAE</span><span class="ss-cond-value">${m.test_mae_kw?.toFixed(3) ?? '—'} kW</span></div>
+          <div class="ss-condition"><span class="ss-cond-label">Persistence baseline MAE</span><span class="ss-cond-value">${m.persistence_baseline_mae_kw?.toFixed(3) ?? '—'} kW</span></div>
+          <div class="ss-condition"><span class="ss-cond-label">Skill vs. baseline</span><span class="ss-cond-value">${skillPct}%</span></div>
+          <div class="ss-condition"><span class="ss-cond-label">Test samples</span><span class="ss-cond-value">${m.n_test_samples ?? '—'}</span></div>
+          <div class="ss-condition"><span class="ss-cond-label">Training data source</span><span class="ss-cond-value">${(m.data_source || '—').replace(/_/g,' ')}</span></div>
+          <div class="ss-condition"><span class="ss-cond-label">Last trained</span><span class="ss-cond-value">${m.trained_at ? new Date(m.trained_at).toLocaleDateString() : '—'}</span></div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  } catch (err) {
+    loading.classList.add('hidden');
+    error.textContent = 'Could not load live accuracy data right now (' + err.message + '). This page reads directly from the running /model_info endpoint — try again in a moment.';
+    error.classList.remove('hidden');
+  }
+}
+loadAccuracy();
+</script>
+</body>
+</html>

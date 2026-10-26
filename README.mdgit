@@ -1,0 +1,1 @@
+"# solarsense-ai"  initgit add README.mdgit commit -m "first commit"git branch -M maingit remote add origin https://github.com/Chiboyking/solarsense-ai.gitgit push -u origin main

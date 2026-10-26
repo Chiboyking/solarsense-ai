@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SolarSense AI — Solar Power Forecasting for Nigeria</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="ss-header">
+  <div class="ss-header-inner">
+    <a href="/" class="ss-brand" style="text-decoration:none;">
+      <i class="fa-solid fa-solar-panel ss-brand-icon"></i> SolarSense AI
+    </a>
+    <div class="ss-header-actions">
+      <a href="/accuracy" class="ss-btn-ghost">Accuracy</a>
+      <a href="/" class="ss-btn-primary">Open the App</a>
+    </div>
+  </div>
+</header>
+
+<main class="ss-main">
+  <section class="ss-hero" style="max-width:720px;">
+    <h1 style="font-weight:800;">Know your solar output before it happens.</h1>
+    <p class="ss-tagline">
+      SolarSense AI predicts how much power a solar PV system will produce, up to 24 hours ahead,
+      anywhere in Nigeria — trained on real weather data, with an honest confidence range instead
+      of a single confident guess.
+    </p>
+    <a href="/" class="ss-hero-btn"><span class="ss-hero-btn-glow"></span> Try the Live Forecast</a>
+  </section>
+
+  <div class="ss-dashboard">
+
+    <div class="ss-card">
+      <h2 class="ss-card-title"><i class="fa-solid fa-list-check"></i> How it works</h2>
+      <div class="ss-conditions-grid">
+        <div class="ss-condition"><i class="fa-solid fa-cloud-sun"></i><span class="ss-cond-label">1. Real weather in</span><span class="ss-cond-value" style="font-size:0.85rem;font-weight:500;">Live conditions from Open-Meteo, for any of Nigeria's 36 states</span></div>
+        <div class="ss-condition"><i class="fa-solid fa-brain"></i><span class="ss-cond-label">2. Zone-specific model</span><span class="ss-cond-value" style="font-size:0.85rem;font-weight:500;">XGBoost trained per climate zone on real NASA POWER history</span></div>
+        <div class="ss-condition"><i class="fa-solid fa-chart-line"></i><span class="ss-cond-label">3. A forecast, not a guess</span><span class="ss-cond-value" style="font-size:0.85rem;font-weight:500;">Power prediction with a real confidence range, 1–24h ahead</span></div>
+      </div>
+    </div>
+
+    <div class="ss-card">
+      <h2 class="ss-card-title"><i class="fa-solid fa-triangle-exclamation"></i> What this honestly doesn't do yet</h2>
+      <ul style="color:var(--text-secondary); padding-left:1.2rem;">
+        <li>Not yet validated against real metered household output — no free dataset of that exists publicly for Nigeria, so accuracy is measured against real weather data with output derived from a documented physical model. Full detail on the <a href="/accuracy">Accuracy page</a>.</li>
+        <li>Inverter comparison is a manual-entry demo, not a live connection to any specific hardware brand.</li>
+        <li>Runs as a single instance right now — not yet built for fleet/multi-site monitoring at company scale.</li>
+      </ul>
+      <p style="color:var(--text-secondary); margin-bottom:0;">We'd rather tell you this up front than have you find it after a pilot starts.</p>
+    </div>
+
+    <div class="ss-card ss-card-center">
+      <h2 class="ss-card-title"><i class="fa-solid fa-handshake"></i> Interested in a pilot or collaboration?</h2>
+      <p style="color:var(--text-secondary)">This is a working system looking for a real-world testing partner — a solar installer, mini-grid operator, or energy company with actual sites to forecast for.</p>
+      <a href="mailto:[email protected]" class="ss-btn-primary"><i class="fa-solid fa-envelope"></i> [email protected]</a>
+    </div>
+
+  </div>
+
+  <footer class="ss-footer">
+    <p>Built with real weather data (Open-Meteo) and real historical solar data (NASA POWER) for Nigeria.
+    &nbsp;|&nbsp; <a href="/privacy">Privacy</a> &nbsp;|&nbsp; <a href="/terms">Terms</a></p>
+  </footer>
+</main>
+</body>
+</html>
